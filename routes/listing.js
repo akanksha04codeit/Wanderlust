@@ -40,6 +40,7 @@ router.post("/", async (req,res,next) =>{
     //     throw new ExpressError(400, result.error);
     //  }
         const newListing = new Listing (req.body.listing);
+        newListing.owner = req.user._id;
         await newListing.save();
         req.flash("success", "New Listing Created");
         res.redirect("/listing");
@@ -79,12 +80,12 @@ router.delete("/:id", isLoggedIn, async(req,res) =>{
 //Show Route
 router.get("/:id",async(req,res) =>{
     let {id} = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
-    // console.log(listing);
+    const listing = await Listing.findById(id).populate("reviews").populate("owner");
     if(!listing){
         req.flash("error", "Listing you requested for does not exist!");
         res.redirect("/listing")
     }
+    // console.log(listing);
     res.render("listings/show", { listing });
 });
 

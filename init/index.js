@@ -1,4 +1,4 @@
-const mongoose = require ("mongoose");
+const mongoose = require("mongoose");
 const initData = require("./data.js");
 
 
@@ -35,6 +35,7 @@ const Listing = require("../models/listing.js");
 
     // ✅ Insert new data
     console.log("🌱 Seeding data...");
+    initData.data = initData.data.map((obj)=>({...obj, owner:"689339579d857a0e6002f339"}));
     const inserted = await Listing.insertMany(initData.data);
     console.log("✅ Inserted listings:", inserted);
   };
