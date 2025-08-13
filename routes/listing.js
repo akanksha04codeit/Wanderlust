@@ -28,25 +28,33 @@ const listingController = require("../controllers/listings.js");
     //     throw new ExpressError(400, result.error);
     //  }
 
+    router.route("/")
+        .get(listingController.index)              //Index Route
+        .post(listingController.createListing)    //Create Route 
 //Index Route
-router.get("/",listingController.index);
+// router.get("/",listingController.index);
 
 //New Route                            
 router.get("/new",isLoggedIn, listingController.renderNewForm);
 
 //Create Route                 
-router.post("/", listingController.createListing);
+// router.post("/", listingController.createListing);
 
 //Edit Route
 router.get("/:id/edit", isLoggedIn, isOwner, listingController.renderEditForm);
 
+router.route("/:id")
+    .put(isLoggedIn, isOwner, listingController.updateListing)  //Update Route
+    .delete(isLoggedIn, isOwner, listingController.destroyListing)  //Delete Route
+    .get(listingController.showListing)  //Show Route
+
 //Update Route
-router.put("/:id", isLoggedIn, isOwner, listingController.updateListing);
+// router.put("/:id", isLoggedIn, isOwner, listingController.updateListing);
 
 //Delete Route
-router.delete("/:id", isLoggedIn, isOwner, listingController.destroyListing);
+// router.delete("/:id", isLoggedIn, isOwner, listingController.destroyListing);
 
 //Show Route
-router.get("/:id", listingController.showListing);
+// router.get("/:id", listingController.showListing);
 
 module.exports = router;
