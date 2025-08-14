@@ -26,5 +26,13 @@ router.post("/", isLoggedIn, listingController.createReview);
 
 //Delete review Route
 router.delete("/:reviewId", isLoggedIn, isReviewAuthor, listingController.destroyReview);
+// router.delete("/:reviewId", isLoggedIn, isReviewAuthor, async(req,res) => {
+//     let {id, reviewId} = req.params;
 
+//     await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+//     await Review.findByIdAndDelete(reviewId);
+//     req.flash("success", "Review Deleted!");
+//     res.redirect(`/listing/${id}`);
+// })
+ 
 module.exports = router;
