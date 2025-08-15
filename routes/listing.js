@@ -6,6 +6,9 @@ const {listingSchema, reviewSchema} = require("../schema.js");
 const Listing = require("../models/listing");
 const {isLoggedIn, isOwner} = require ("../middleware.js");
 const listingController = require("../controllers/listings.js");
+const multer  = require('multer')
+const {storage} = require('../cloudConfig.js')
+const upload = multer({ storage })
 
 // const validateListing = (req, res, next) => {
 //     // let{ error } = listingSchema.validate(req.body);
@@ -30,7 +33,30 @@ const listingController = require("../controllers/listings.js");
 
     router.route("/")
         .get(listingController.index)              //Index Route
-        .post(listingController.createListing)    //Create Route 
+        // .post(listingController.createListing)    //Create Route 
+
+//         .post(upload.single('listing[image]'),async(req,res)=>{
+//             console.log("Uploaded File:", req.file); // This already has URL, filename, etc.
+//             res.json(req.file); // Send it as JSON
+// });
+
+router.post('/', upload.single('listing[image]'), (req, res) => {
+    // If no file was uploaded
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    // Log full object in the terminal for debugging
+    console.log("=== Uploaded File ===");
+    console.log(req.file); 
+
+    // Send as JSON to browser
+    res.status(200).json({
+        message: 'Upload successful',
+        file: req.file
+    });
+});
+
 //Index Route
 // router.get("/",listingController.index);
 
