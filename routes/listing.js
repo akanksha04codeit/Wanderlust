@@ -33,29 +33,28 @@ const upload = multer({ storage })
 
     router.route("/")
         .get(listingController.index)              //Index Route
-        // .post(listingController.createListing)    //Create Route 
+        .post(
+            isLoggedIn,
+            upload.single('listing[image]'),
+            (listingController.createListing));    //Create Route 
 
-//         .post(upload.single('listing[image]'),async(req,res)=>{
-//             console.log("Uploaded File:", req.file); // This already has URL, filename, etc.
-//             res.json(req.file); // Send it as JSON
+            //this is for testing the upload file to cloudinary or not
+// router.post('/', upload.single('listing[image]'), (req, res) => {
+//     // If no file was uploaded
+//     if (!req.file) {
+//         return res.status(400).json({ error: 'No file uploaded' });
+//     }
+
+//     // Log full object in the terminal for debugging
+//     console.log("=== Uploaded File ===");
+//     console.log(req.file); 
+
+//     // Send as JSON to browser
+//     res.status(200).json({
+//         message: 'Upload successful',
+//         file: req.file
+//     });
 // });
-
-router.post('/', upload.single('listing[image]'), (req, res) => {
-    // If no file was uploaded
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
-    }
-
-    // Log full object in the terminal for debugging
-    console.log("=== Uploaded File ===");
-    console.log(req.file); 
-
-    // Send as JSON to browser
-    res.status(200).json({
-        message: 'Upload successful',
-        file: req.file
-    });
-});
 
 //Index Route
 // router.get("/",listingController.index);
