@@ -69,7 +69,7 @@ router.get("/new",isLoggedIn, listingController.renderNewForm);
 router.get("/:id/edit", isLoggedIn, isOwner, listingController.renderEditForm);
 
 router.route("/:id")
-    .put(isLoggedIn, isOwner, listingController.updateListing)  //Update Route
+    .put(isLoggedIn, isOwner, upload.single('listing[image]'), listingController.updateListing)  //Update Route
     .delete(isLoggedIn, isOwner, listingController.destroyListing)  //Delete Route
     .get(listingController.showListing)  //Show Route
 
